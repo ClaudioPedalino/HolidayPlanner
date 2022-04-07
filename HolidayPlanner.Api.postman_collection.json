@@ -1,0 +1,220 @@
+{
+	"info": {
+		"_postman_id": "1c31fb4e-8913-44fe-9545-21a4e3a11f1f",
+		"name": "HolidayPlanner.Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/holiday-request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/holiday-request",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"holiday-request"
+					],
+					"query": [
+						{
+							"key": "Page",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "Size",
+							"value": "3",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/holiday-request",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"let departments = [\r",
+							"\t'Sportbook',\r",
+							"    'BetOnline',\r",
+							"    'WildCasino',\r",
+							"    'SuperSlot',\r",
+							"\t'Cashier'\r",
+							"\t];\r",
+							"\r",
+							"let positions = [\r",
+							"\t'Backend Developer',\r",
+							"\t'Frontend Developer',\r",
+							"\t'FullStack Developer',\r",
+							"\t'Project Manager',\r",
+							"\t'Human Resources',\r",
+							"\t'Quality Assurance',\r",
+							"\t'Scrum Master',\r",
+							"\t'Service Desk',\r",
+							"    'Other'\r",
+							"\t];\t\r",
+							"\r",
+							"function randomWord(arr) {\r",
+							"    return arr[Math.floor(Math.random() * arr.length)];\r",
+							"}\r",
+							"\r",
+							"function getRandomInt(min, max) {\r",
+							"    min = Math.ceil(min);\r",
+							"    max = Math.floor(max);\r",
+							"    return Math.floor(Math.random() * (max - min + 1)) + min;\r",
+							"}\r",
+							"\r",
+							"function randomDate(start, end) {\r",
+							"    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));\r",
+							"}\r",
+							"\r",
+							"pm.environment.set(\"random-department\", (randomWord(departments)));\r",
+							"pm.environment.set(\"random-position\", (randomWord(positions)));\r",
+							"pm.environment.set(\"random-flexible-holiday-amount\", (getRandomInt(0,11)));\r",
+							"pm.environment.set(\"random-vacation-amount\", (getRandomInt(0,11)));\r",
+							"\r",
+							"pm.environment.set(\"random-date-from\", (randomDate(new Date(2021, 0, 1), new Date())));\r",
+							";\r",
+							"pm.environment.set(\"random-date-to\", (randomDate(pm.environment.get(\"random-date-from\"), new Date())));\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "multipart/form-data"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "RequestBy",
+							"value": "{{$randomEmail}}",
+							"type": "text"
+						},
+						{
+							"key": "Department",
+							"value": "{{random-department}}",
+							"type": "text"
+						},
+						{
+							"key": "Position",
+							"value": "{{random-position}}",
+							"type": "text"
+						},
+						{
+							"key": "FlexibleHolidayAmount",
+							"value": "{{random-flexible-holiday-amount}}",
+							"type": "text"
+						},
+						{
+							"key": "VacationDayAmount",
+							"value": "{{random-vacation-amount}}",
+							"type": "text"
+						},
+						{
+							"key": "DateFrom",
+							"value": "{{random-date-from}}",
+							"type": "text"
+						},
+						{
+							"key": "DateTo",
+							"value": "{{random-date-to}}",
+							"type": "text"
+						},
+						{
+							"key": "EmployeeSignatureUrl",
+							"value": "{{$randomImageUrl}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/holiday-request",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"holiday-request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/holiday-request",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"holidayRequestId\": \"522172be-de75-42a8-b562-d5ed9072ea44\",\n  \"state\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/holiday-request",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"holiday-request"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:5001",
+			"type": "string"
+		}
+	]
+}
