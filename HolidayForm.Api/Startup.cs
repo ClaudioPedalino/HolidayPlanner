@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using HolidayPlanner.Api.Data;
 using HolidayPlanner.Api.Interfaces;
+using HolidayPlanner.Api.Middlewares;
 using HolidayPlanner.Api.Repositories;
 using HolidayPlanner.Api.Services;
 using HolidayPlanner.Api.Validators;
@@ -30,10 +31,12 @@ namespace HolidayPlanner.Api
 
             services
                 .AddEntityFrameworkSqlite()
+                //.AddDbContext<DataContext>(option =>
+                //    option.UseSqlServer(Configuration.GetConnectionString("HolidayFormDb")));
                 .AddDbContext<DataContext>(option =>
-                    option.UseSqlServer(Configuration.GetConnectionString("HolidayFormDb")));
-            //.AddDbContext<DataContext>(option =>
-            //    option.UseSqlite("Filename=HolidayFormDb.sqlite;"));
+                    option.UseSqlite("Filename=HolidayFormDb.sqlite;"));
+
+            services.AddMemoryCache();
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -61,7 +64,8 @@ namespace HolidayPlanner.Api
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HolidayPlanner.Api v1"));
 
-            //app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<LoggingMiddleware>();
 
             app.UseHttpsRedirection();
 

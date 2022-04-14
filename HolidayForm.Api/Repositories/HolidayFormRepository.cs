@@ -23,7 +23,7 @@ namespace HolidayPlanner.Api.Repositories
         {
             int take = query.Size > 0
                 ? query.Size
-                : 10;
+                : 50;
 
             int skip = query.Page > 0
                 ? (query.Page - 1) * take
@@ -51,23 +51,26 @@ namespace HolidayPlanner.Api.Repositories
         }
 
 
-        public string Create(HolidayForm entity)
+        public void Create(HolidayForm entity)
         {
             _dataContext.HolidayForms.Add(entity);
             _dataContext.SaveChanges();
-
-            return "create ok";
         }
 
 
-        public string UpdateState(HolidayForm entity, State state)
+        public void UpdateState(HolidayForm entity, State state)
         {
             entity.State = state.ToString();
 
             _dataContext.Update(entity);
             _dataContext.SaveChanges();
+        }
 
-            return "update ok";
+
+        public void DeleteAllRecords()
+        {
+            _dataContext.RemoveRange(_dataContext.HolidayForms);
+            _dataContext.SaveChanges();
         }
     }
 }

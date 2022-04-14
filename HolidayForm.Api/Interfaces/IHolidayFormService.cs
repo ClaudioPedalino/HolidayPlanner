@@ -2,6 +2,7 @@
 using HolidayPlanner.Api.Entities;
 using HolidayPlanner.Api.Queries;
 using HolidayPlanner.Api.Responses;
+using HolidayPlanner.Api.Wrappers;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,10 @@ namespace HolidayPlanner.Api.Interfaces
     {
         List<GetHolidayFormResponse> GetAll(GetHolidayFormQuery query);
         GetHolidayFormResponse GetById(Guid holidayRequestId);
-        string CreateHolidayRequest(CreateHolidayFormCommand command);
-        string UpdateHolidayRequest(UpdateHolidayFormCommand command);
+        
+        
+        Result CreateHolidayRequest(CreateHolidayFormCommand command);
+        Result UpdateHolidayRequest(UpdateHolidayFormCommand command);
+        void ResetDatabase();
     }
 }

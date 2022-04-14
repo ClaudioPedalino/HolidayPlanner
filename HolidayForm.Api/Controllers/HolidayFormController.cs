@@ -1,10 +1,7 @@
 ﻿using HolidayPlanner.Api.Command;
-using HolidayPlanner.Api.Helpers;
 using HolidayPlanner.Api.Interfaces;
 using HolidayPlanner.Api.Queries;
-using HolidayPlanner.Api.Responses;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace HolidayPlanner.Api.Controllers
 {
@@ -30,30 +27,49 @@ namespace HolidayPlanner.Api.Controllers
 
 
         [HttpPost]
-        //public ActionResult Create([FromBody] CreateHolidayFormCommand command)
         public ActionResult Create([FromForm] CreateHolidayFormCommand command)
         {
-            Printer.PrintJsonInConsole(command);
+            //Printer.PrintJsonInConsole(command);
 
             var result = _holidayRequestService.CreateHolidayRequest(command);
 
-            return Ok(new { Result = result });
+            return result.IsSuccess
+                ? Ok(result)
+                : BadRequest(result);
         }
 
 
         [HttpPut]
         public ActionResult ApproveHolidayRequest([FromBody] UpdateHolidayFormCommand command)
         {
-            Printer.PrintJsonInConsole(command);
+            //Printer.PrintJsonInConsole(command);
 
             var result = _holidayRequestService.UpdateHolidayRequest(command);
 
-            return Ok(new { Result = result });
+            return result.IsSuccess
+                ? Ok(result)
+                : BadRequest(result);
+        }
+
+
+
+        [HttpDelete]
+        public ActionResult DeleteAll()
+        {
+            if (Request.Headers["password"] == "pepe123")
+            {
+                _holidayRequestService.ResetDatabase();
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 
 
 
 
-   
+
 }

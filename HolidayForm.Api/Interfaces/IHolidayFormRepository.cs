@@ -10,7 +10,9 @@ namespace HolidayPlanner.Api.Interfaces
     {
         List<HolidayForm> GetAll(GetHolidayFormQuery query);
         HolidayForm GetById(Guid holidayRequestId);
-        string Create(HolidayForm entity);
-        string UpdateState(HolidayForm entity, State state);
+        
+        void Create(HolidayForm entity);
+        void UpdateState(HolidayForm entity, State state);
+        void DeleteAllRecords();
     }
 }
